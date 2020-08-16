@@ -29,4 +29,14 @@ public class BasicServiceImpl implements BasicService
 		}
 		return theBasic.get();
 	}
+
+	@Override
+	public Basic save(Basic theBasic) {
+		return basicRepository.save(theBasic);
+	}
+
+	@Override
+	public void deleteById(int id) {
+		basicRepository.deleteById(id);
+	}
 }

@@ -17,7 +17,7 @@ class DemoApplicationTests
 	
 	@Test
 	public void findAllTest() throws Exception {
-		assertEquals(2, basicService.findAll().size());
+		assertEquals(1, basicService.findAll().size());
 	}
 	
 	@Test
@@ -25,6 +25,21 @@ class DemoApplicationTests
 	{
 		Basic theBasic = new Basic(1, "Aditya");
 		assertEquals(theBasic, basicService.findById(1));
+	}
+	
+	@Test
+	public void saveTest() throws Exception
+	{
+		Basic theBasic = new Basic(2, "Adi");
+		basicService.save(theBasic);
+		assertEquals(2, basicService.findAll().size());
+	}
+	
+	@Test
+	public void deleteByIdTest() throws Exception
+	{
+		basicService.deleteById(2);
+		assertEquals(1, basicService.findAll().size());
 	}
 
 }
