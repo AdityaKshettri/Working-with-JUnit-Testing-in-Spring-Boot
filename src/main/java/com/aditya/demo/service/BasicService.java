@@ -6,8 +6,8 @@ import com.aditya.demo.model.Basic;
 
 public interface BasicService 
 {
-	public List<Basic> findAll();
-	public Basic findById(int id);
-	public Basic save(Basic theBasic);
-	public void deleteById(int id);
+	List<Basic> findAll();
+	Basic findById(int id);
+	Basic save(Basic theBasic);
+	Basic deleteById(int id);
 }

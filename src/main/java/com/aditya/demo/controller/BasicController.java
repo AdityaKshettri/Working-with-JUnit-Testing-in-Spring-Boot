@@ -37,7 +37,7 @@ public class BasicController
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteById(@PathVariable int id) {
-		basicService.deleteById(id);
+	public Basic deleteById(@PathVariable int id) {
+		return basicService.deleteById(id);
 	}
 }

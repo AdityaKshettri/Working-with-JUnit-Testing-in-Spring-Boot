@@ -36,7 +36,12 @@ public class BasicServiceImpl implements BasicService
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public Basic deleteById(int id) {
+		Basic theBasic = findById(id);
+		if(theBasic == null) {
+			return null;
+		}
 		basicRepository.deleteById(id);
+		return theBasic;
 	}
 }
