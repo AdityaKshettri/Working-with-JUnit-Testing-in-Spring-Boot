@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @SpringBootTest
 class DemoApplicationTests 
 {
-	Basic theBasic;
+	static Basic theBasic;
 
 	@InjectMocks
 	private BasicServiceImpl basicServiceImplMock;
@@ -29,8 +30,8 @@ class DemoApplicationTests
 	@Mock
 	private BasicRepository basicRepositoryMock;
 
-	@BeforeEach
-	public void initializeBasic() {
+	@BeforeAll
+	public static void beforeAll() {
 		theBasic = new Basic(1,"Aditya");
 	}
 	
@@ -62,5 +63,10 @@ class DemoApplicationTests
 	{
 		doNothing().when(basicRepositoryMock).deleteById(1);
 		assertNull(basicServiceImplMock.deleteById(1));
+	}
+
+	@AfterAll
+	public static void afterAll() {
+		theBasic = null;
 	}
 }
