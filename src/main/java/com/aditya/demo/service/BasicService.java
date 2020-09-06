@@ -10,4 +10,5 @@ public interface BasicService
 	Basic findById(int id);
 	Basic save(Basic theBasic);
 	Basic deleteById(int id);
+	Basic update(Basic theBasic);
 }

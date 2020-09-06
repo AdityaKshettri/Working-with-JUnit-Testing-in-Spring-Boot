@@ -2,14 +2,11 @@ package com.aditya.demo.controller;
 
 import java.util.List;
 
+import com.aditya.demo.dto.BasicDto;
+import com.aditya.demo.mapper.BasicMapper;
+import com.aditya.demo.request.CreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aditya.demo.model.Basic;
 import com.aditya.demo.service.BasicService;
@@ -20,24 +17,51 @@ public class BasicController
 {
 	@Autowired
 	private BasicService basicService;
+
+	@Autowired
+	private BasicMapper basicMapper;
 	
 	@GetMapping("")
-	public List<Basic> findAll() {
-		return basicService.findAll();
+	public List<BasicDto> findAll() {
+		List<Basic> basics = basicService.findAll();
+		return basicMapper.map(basics);
 	}
 	
 	@GetMapping("/{id}")
-	public Basic findById(@PathVariable int id) {
-		return basicService.findById(id);
+	public BasicDto findById(@PathVariable int id) {
+		Basic basic = basicService.findById(id);
+		if(basic == null) {
+			return null;
+		}
+		return basicMapper.map(basic);
 	}
 	
 	@PostMapping("")
-	public Basic save(@RequestBody Basic theBasic) {
-		return basicService.save(theBasic);
+	public BasicDto save(@RequestBody CreateRequest createRequest) {
+		Basic basic = basicMapper.map(createRequest);
+		basic = basicService.save(basic);
+		if(basic == null) {
+			return null;
+		}
+		return basicMapper.map(basic);
 	}
 	
 	@DeleteMapping("/{id}")
-	public Basic deleteById(@PathVariable int id) {
-		return basicService.deleteById(id);
+	public BasicDto deleteById(@PathVariable int id) {
+		Basic basic = basicService.deleteById(id);
+		if(basic == null) {
+			return null;
+		}
+		return basicMapper.map(basic);
+	}
+
+	@PutMapping("")
+	public BasicDto update(@PathVariable BasicDto basicDto) {
+		Basic basic = basicMapper.map(basicDto);
+		basic = basicService.update(basic);
+		if(basic == null) {
+			return null;
+		}
+		return basicMapper.map(basic);
 	}
 }

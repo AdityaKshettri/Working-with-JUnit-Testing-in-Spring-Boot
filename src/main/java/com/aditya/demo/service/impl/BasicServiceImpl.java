@@ -23,25 +23,37 @@ public class BasicServiceImpl implements BasicService
 	
 	@Override
 	public Basic findById(int id) {
-		Optional<Basic> theBasic = basicRepository.findById(id);
-		if(theBasic.isEmpty()) {
+		Optional<Basic> basic = basicRepository.findById(id);
+		if(basic.isEmpty()) {
 			return null;
 		}
-		return theBasic.get();
+		return basic.get();
 	}
 
 	@Override
-	public Basic save(Basic theBasic) {
-		return basicRepository.save(theBasic);
+	public Basic save(Basic basic) {
+		if(basic.getId() != 0) {
+			return null;
+		}
+		return basicRepository.save(basic);
 	}
 
 	@Override
 	public Basic deleteById(int id) {
-		Basic theBasic = findById(id);
-		if(theBasic == null) {
+		Basic basic = findById(id);
+		if(basic == null) {
 			return null;
 		}
 		basicRepository.deleteById(id);
-		return theBasic;
+		return basic;
+	}
+
+	@Override
+	public Basic update(Basic basic) {
+		basic = findById(basic.getId());
+		if(basic == null) {
+			return null;
+		}
+		return basicRepository.save(basic);
 	}
 }
