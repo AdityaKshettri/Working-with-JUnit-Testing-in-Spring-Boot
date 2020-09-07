@@ -3,6 +3,7 @@ package com.aditya.demo.controller;
 import java.util.List;
 
 import com.aditya.demo.dto.BasicDto;
+import com.aditya.demo.dto.BasicsDto;
 import com.aditya.demo.mapper.BasicMapper;
 import com.aditya.demo.request.CreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,10 @@ public class BasicController
 	private BasicMapper basicMapper;
 	
 	@GetMapping("")
-	public List<BasicDto> findAll() {
+	public BasicsDto findAll() {
 		List<Basic> basics = basicService.findAll();
-		return basicMapper.map(basics);
+		List<BasicDto> basicDtos = basicMapper.map(basics);
+		return new BasicsDto(basicDtos);
 	}
 	
 	@GetMapping("/{id}")
@@ -56,7 +58,7 @@ public class BasicController
 	}
 
 	@PutMapping("")
-	public BasicDto update(@PathVariable BasicDto basicDto) {
+	public BasicDto update(@RequestBody BasicDto basicDto) {
 		Basic basic = basicMapper.map(basicDto);
 		basic = basicService.update(basic);
 		if(basic == null) {

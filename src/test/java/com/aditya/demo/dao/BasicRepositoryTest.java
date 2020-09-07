@@ -61,7 +61,7 @@ public class BasicRepositoryTest {
         //When
         List<Basic> basics = basicRepository.findAll();
         //Then
-        assertThat(basics).containsExactly(basic);
+        assertThat(basics).contains(basic);
     }
 
     @Test
