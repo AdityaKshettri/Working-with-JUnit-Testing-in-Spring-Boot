@@ -1,12 +1,9 @@
 package com.aditya.demo.dao;
 
+import com.aditya.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.aditya.demo.model.Basic;
-
 @Repository
-public interface BasicRepository extends JpaRepository<Basic, Integer>
-{
-
+public interface UserRepository extends JpaRepository<User, Integer> {
 }

@@ -16,6 +16,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
     @Bean
     public Docket todoApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -27,13 +28,13 @@ public class SwaggerConfig {
     }
 
     private Predicate<String> postPaths() {
-        return regex("/basics.*")::apply;
+        return regex("/users.*")::apply;
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Basic Rest APIs")
-                .description("API reference for Basic Service")
+                .title("User Rest APIs")
+                .description("API reference for User Service")
                 .contact(new Contact("Aditya Kshettri", "https://github.com/AdityaKshettri", "adikshettri1623@gmail.com"))
                 .version("1.0")
                 .build();

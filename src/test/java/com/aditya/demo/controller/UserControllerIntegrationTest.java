@@ -2,8 +2,8 @@ package com.aditya.demo.controller;
 
 import com.aditya.demo.DemoApplication;
 import com.aditya.demo.controller.helper.HttpHelper;
-import com.aditya.demo.dto.BasicDto;
-import com.aditya.demo.dto.BasicsDto;
+import com.aditya.demo.dto.UserDto;
+import com.aditya.demo.dto.UsersDto;
 import com.aditya.demo.request.CreateRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BasicControllerIntegrationTest {
+public class UserControllerIntegrationTest {
 
-    private static final String BASIC_URL = "http://localhost:%s/basics";
-    private static final String BASIC_ID_URL = "http://localhost:%s/basics/%s";
+    private static final String USER_URL = "http://localhost:%s/users";
+    private static final String USER_ID_URL = "http://localhost:%s/users/%s";
 
     private static final int ID = 10;
     private static final int DELETE_ID = 20;
@@ -43,12 +43,12 @@ public class BasicControllerIntegrationTest {
     private int port;
 
     @Test
-    public void should_find_basic_by_id() {
+    public void should_find_user_by_id() {
         //Given
-        String url = String.format(BASIC_ID_URL, port, ID);
+        String url = String.format(USER_ID_URL, port, ID);
         HttpEntity<String> request = HttpHelper.getHttpEntity();
         //When
-        ResponseEntity<BasicDto> response = testRestTemplate.exchange(url, HttpMethod.GET, request, BasicDto.class);
+        ResponseEntity<UserDto> response = testRestTemplate.exchange(url, HttpMethod.GET, request, UserDto.class);
         //Then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
@@ -57,29 +57,29 @@ public class BasicControllerIntegrationTest {
     }
 
     @Test
-    public void should_find_all_basics() {
+    public void should_find_all_users() {
         //Given
-        String url = String.format(BASIC_URL, port);
+        String url = String.format(USER_URL, port);
         HttpEntity<String> request = HttpHelper.getHttpEntity();
         //When
-        ResponseEntity<BasicsDto> response = testRestTemplate.exchange(url, HttpMethod.GET, request, BasicsDto.class);
+        ResponseEntity<UsersDto> response = testRestTemplate.exchange(url, HttpMethod.GET, request, UsersDto.class);
         //Then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
-        List<BasicDto> basicDtos = response.getBody().getBasicDtos();
-        assertEquals(3, basicDtos.size());
-        assertEquals(ID, basicDtos.get(0).getId());
-        assertEquals(NAME, basicDtos.get(0).getName());
+        List<UserDto> userDtos = response.getBody().getUserDtos();
+        assertEquals(3, userDtos.size());
+        assertEquals(ID, userDtos.get(0).getId());
+        assertEquals(NAME, userDtos.get(0).getName());
     }
 
     @Test
-    public void should_save_basic() {
+    public void should_save_user() {
         //Given
-        String url = String.format(BASIC_URL, port);
+        String url = String.format(USER_URL, port);
         CreateRequest createRequest = givenCreateRequest();
         HttpEntity<CreateRequest> request = HttpHelper.getHttpEntity(createRequest);
         //When
-        ResponseEntity<BasicDto> response = testRestTemplate.exchange(url, HttpMethod.POST, request, BasicDto.class);
+        ResponseEntity<UserDto> response = testRestTemplate.exchange(url, HttpMethod.POST, request, UserDto.class);
         //Then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
@@ -87,13 +87,13 @@ public class BasicControllerIntegrationTest {
     }
 
     @Test
-    public void should_update_basic() {
+    public void should_update_user() {
         //Given
-        String url = String.format(BASIC_URL, port);
-        BasicDto basicDto = givenBasicDto();
-        HttpEntity<BasicDto> request = HttpHelper.getHttpEntity(basicDto);
+        String url = String.format(USER_URL, port);
+        UserDto userDto = givenUserDto();
+        HttpEntity<UserDto> request = HttpHelper.getHttpEntity(userDto);
         //When
-        ResponseEntity<BasicDto> response = testRestTemplate.exchange(url, HttpMethod.PUT, request, BasicDto.class);
+        ResponseEntity<UserDto> response = testRestTemplate.exchange(url, HttpMethod.PUT, request, UserDto.class);
         //Then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
@@ -102,12 +102,12 @@ public class BasicControllerIntegrationTest {
     }
 
     @Test
-    public void should_delete_basic_by_id() {
+    public void should_delete_user_by_id() {
         //Given
-        String url = String.format(BASIC_ID_URL, port, DELETE_ID);
+        String url = String.format(USER_ID_URL, port, DELETE_ID);
         HttpEntity<String> request = HttpHelper.getHttpEntity();
         //When
-        ResponseEntity<BasicDto> response = testRestTemplate.exchange(url, HttpMethod.DELETE, request, BasicDto.class);
+        ResponseEntity<UserDto> response = testRestTemplate.exchange(url, HttpMethod.DELETE, request, UserDto.class);
         //Then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
@@ -121,10 +121,10 @@ public class BasicControllerIntegrationTest {
         return createRequest;
     }
 
-    private BasicDto givenBasicDto() {
-        BasicDto basicDto = new BasicDto();
-        basicDto.setId(ID);
-        basicDto.setName(NAME);
-        return basicDto;
+    private UserDto givenUserDto() {
+        UserDto userDto = new UserDto();
+        userDto.setId(ID);
+        userDto.setName(NAME);
+        return userDto;
     }
 }
