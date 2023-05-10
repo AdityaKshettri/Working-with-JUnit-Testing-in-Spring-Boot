@@ -63,6 +63,7 @@ public class UserRepositoryTest {
         List<User> users = userRepository.findAll();
         //Then
         assertThat(users).contains(user);
+        System.out.println(users);
     }
 
     @Test
