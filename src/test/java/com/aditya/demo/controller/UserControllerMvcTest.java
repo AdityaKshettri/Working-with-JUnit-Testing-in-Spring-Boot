@@ -5,7 +5,7 @@ import com.aditya.demo.dto.UserDto;
 import com.aditya.demo.dto.UsersDto;
 import com.aditya.demo.mapper.UserMapper;
 import com.aditya.demo.model.User;
-import com.aditya.demo.request.CreateRequest;
+import com.aditya.demo.request.UserRequest;
 import com.aditya.demo.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,11 +57,11 @@ public class UserControllerMvcTest {
         List<UserDto> userDtos = Collections.singletonList(userDto);
         when(userMapper.map(users)).thenReturn(userDtos);
         UsersDto usersDto = new UsersDto(userDtos);
-        //When
         String expected = JsonHelper.toJson(usersDto).orElse("");
-        //Then
+        //When
         mockMvc.perform(get(USER_URL)
                 .contentType(MediaType.APPLICATION_JSON))
+                //Then
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
     }
@@ -73,11 +73,11 @@ public class UserControllerMvcTest {
         when(userService.findById(ID)).thenReturn(user);
         UserDto userDto = givenUserDto();
         when(userMapper.map(user)).thenReturn(userDto);
-        //When
         String expected = JsonHelper.toJson(userDto).orElse("");
-        //Then
+        //When
         mockMvc.perform(get(USER_ID_URL, ID)
                 .contentType(MediaType.APPLICATION_JSON))
+                //Then
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
     }
@@ -85,19 +85,19 @@ public class UserControllerMvcTest {
     @Test
     public void should_save_user_returns_200_nominal_case() throws Exception {
         //Given
-        CreateRequest createRequest = givenCreateRequest();
+        UserRequest createRequest = givenUserRequest();
         User user = givenUser();
         UserDto userDto = givenUserDto();
         when(userMapper.map(createRequest)).thenReturn(user);
         when(userService.save(user)).thenReturn(user);
         when(userMapper.map(user)).thenReturn(userDto);
-        //When
         String createRequestJson = JsonHelper.toJson(createRequest).orElse("");
         String expected = JsonHelper.toJson(userDto).orElse("");
-        //Then
+        //When
         mockMvc.perform(post(USER_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(createRequestJson))
+                //Then
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
     }
@@ -109,11 +109,11 @@ public class UserControllerMvcTest {
         when(userService.deleteById(ID)).thenReturn(user);
         UserDto userDto = givenUserDto();
         when(userMapper.map(user)).thenReturn(userDto);
-        //When
         String expected = JsonHelper.toJson(userDto).orElse("");
-        //Then
+        //When
         mockMvc.perform(delete(USER_ID_URL, ID)
                 .contentType(MediaType.APPLICATION_JSON))
+                //Then
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
     }
@@ -122,25 +122,27 @@ public class UserControllerMvcTest {
     public void should_update_user_returns_200_nominal_case() throws Exception {
         //Given
         User user = givenUser();
+        UserRequest userRequest = givenUserRequest();
         UserDto userDto = givenUserDto();
-        when(userMapper.map(userDto)).thenReturn(user);
+        when(userMapper.map(ID, userRequest)).thenReturn(user);
         when(userService.update(user)).thenReturn(user);
         when(userMapper.map(user)).thenReturn(userDto);
-        //When
+        String userRequestJson = JsonHelper.toJson(userRequest).orElse("");
         String expected = JsonHelper.toJson(userDto).orElse("");
-        //Then
-        mockMvc.perform(put(USER_URL)
+        //When
+        mockMvc.perform(put(USER_ID_URL, ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(expected))
+                .content(userRequestJson))
+                //Then
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
     }
 
-    private CreateRequest givenCreateRequest() {
-        CreateRequest createRequest = new CreateRequest();
-        createRequest.setAlias(ALIAS);
-        createRequest.setName(NAME);
-        return createRequest;
+    private UserRequest givenUserRequest() {
+        UserRequest userRequest = new UserRequest();
+        userRequest.setAlias(ALIAS);
+        userRequest.setName(NAME);
+        return userRequest;
     }
 
     private UserDto givenUserDto() {

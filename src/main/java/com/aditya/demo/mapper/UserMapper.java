@@ -2,7 +2,7 @@ package com.aditya.demo.mapper;
 
 import com.aditya.demo.dto.UserDto;
 import com.aditya.demo.model.User;
-import com.aditya.demo.request.CreateRequest;
+import com.aditya.demo.request.UserRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,10 +27,18 @@ public class UserMapper {
         return user;
     }
 
-    public User map(CreateRequest createRequest) {
+    public User map(UserRequest userRequest) {
         User user = new User();
-        user.setAlias(createRequest.getAlias());
-        user.setName(createRequest.getName());
+        user.setAlias(userRequest.getAlias());
+        user.setName(userRequest.getName());
+        return user;
+    }
+
+    public User map(int id, UserRequest userRequest) {
+        User user = new User();
+        user.setId(id);
+        user.setAlias(userRequest.getAlias());
+        user.setName(userRequest.getName());
         return user;
     }
 

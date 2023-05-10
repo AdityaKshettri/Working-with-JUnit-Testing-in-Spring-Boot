@@ -38,7 +38,7 @@ public class UserServiceTest {
         when(userRepository.findAll()).thenReturn(users);
         //When
         //Then
-        assertEquals(user, userService.findAll().get(0));
+        assertEquals(users, userService.findAll());
     }
 
     @Test

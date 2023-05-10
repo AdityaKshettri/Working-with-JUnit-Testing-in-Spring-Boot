@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CreateRequest {
+public class UserRequest {
 
     private String alias;
     private String name;

@@ -2,7 +2,7 @@ package com.aditya.demo.mapper;
 
 import com.aditya.demo.dto.UserDto;
 import com.aditya.demo.model.User;
-import com.aditya.demo.request.CreateRequest;
+import com.aditya.demo.request.UserRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class UserMapperTest {
@@ -30,9 +30,9 @@ public class UserMapperTest {
         //When
         UserDto userDto = userMapper.map(user);
         //Then
-        assertEquals(user.getId(), userDto.getId());
-        assertEquals(user.getAlias(), userDto.getAlias());
-        assertEquals(user.getName(), userDto.getName());
+        assertEquals(ID, userDto.getId());
+        assertEquals(ALIAS, userDto.getAlias());
+        assertEquals(NAME, userDto.getName());
     }
 
     @Test
@@ -42,20 +42,32 @@ public class UserMapperTest {
         //When
         User user = userMapper.map(userDto);
         //Then
-        assertEquals(user.getId(), userDto.getId());
-        assertEquals(user.getAlias(), userDto.getAlias());
-        assertEquals(user.getName(), userDto.getName());
+        assertEquals(ID, user.getId());
+        assertEquals(ALIAS, user.getAlias());
+        assertEquals(NAME, user.getName());
     }
 
     @Test
-    public void should_map_createRequest_to_user() {
+    public void should_map_userRequest_to_user() {
         //Given
-        CreateRequest createRequest = givenCreateRequest();
+        UserRequest createRequest = givenUserRequest();
         //When
         User user = userMapper.map(createRequest);
         //Then
-        assertEquals(user.getAlias(), createRequest.getAlias());
-        assertEquals(user.getName(), createRequest.getName());
+        assertEquals(ALIAS, user.getAlias());
+        assertEquals(NAME, user.getName());
+    }
+
+    @Test
+    public void should_map_id_and_userRequest_to_user() {
+        //Given
+        UserRequest createRequest = givenUserRequest();
+        //When
+        User user = userMapper.map(ID, createRequest);
+        //Then
+        assertEquals(ID, user.getId());
+        assertEquals(ALIAS, user.getAlias());
+        assertEquals(NAME, user.getName());
     }
 
     @Test
@@ -66,10 +78,10 @@ public class UserMapperTest {
         //When
         List<UserDto> userDtos = userMapper.map(users);
         //Then
-        assertEquals(users.size(), userDtos.size());
-        assertEquals(userDtos.get(0).getId(), users.get(0).getId());
-        assertEquals(userDtos.get(0).getAlias(), users.get(0).getAlias());
-        assertEquals(userDtos.get(0).getName(), users.get(0).getName());
+        assertThat(users).hasSize(1);
+        assertEquals(ID, userDtos.get(0).getId());
+        assertEquals(ALIAS, userDtos.get(0).getAlias());
+        assertEquals(NAME, userDtos.get(0).getName());
     }
 
     private User givenUser() {
@@ -88,10 +100,10 @@ public class UserMapperTest {
         return userDto;
     }
 
-    private CreateRequest givenCreateRequest() {
-        CreateRequest createRequest = new CreateRequest();
-        createRequest.setAlias(ALIAS);
-        createRequest.setName(NAME);
-        return createRequest;
+    private UserRequest givenUserRequest() {
+        UserRequest userRequest = new UserRequest();
+        userRequest.setAlias(ALIAS);
+        userRequest.setName(NAME);
+        return userRequest;
     }
 }

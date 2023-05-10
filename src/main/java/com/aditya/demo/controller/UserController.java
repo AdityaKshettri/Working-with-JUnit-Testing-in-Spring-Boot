@@ -4,7 +4,7 @@ import com.aditya.demo.dto.UserDto;
 import com.aditya.demo.dto.UsersDto;
 import com.aditya.demo.mapper.UserMapper;
 import com.aditya.demo.model.User;
-import com.aditya.demo.request.CreateRequest;
+import com.aditya.demo.request.UserRequest;
 import com.aditya.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +38,8 @@ public class UserController {
     }
 
     @PostMapping("")
-    public UserDto save(@RequestBody CreateRequest createRequest) {
-        User user = userMapper.map(createRequest);
+    public UserDto save(@RequestBody UserRequest userRequest) {
+        User user = userMapper.map(userRequest);
         user = userService.save(user);
         if (user == null) {
             return null;
@@ -56,9 +56,9 @@ public class UserController {
         return userMapper.map(user);
     }
 
-    @PutMapping("")
-    public UserDto update(@RequestBody UserDto userDto) {
-        User user = userMapper.map(userDto);
+    @PutMapping("/{id}")
+    public UserDto update(@PathVariable int id, @RequestBody UserRequest userRequest) {
+        User user = userMapper.map(id, userRequest);
         user = userService.update(user);
         if (user == null) {
             return null;

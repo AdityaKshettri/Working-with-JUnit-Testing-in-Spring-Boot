@@ -4,7 +4,7 @@ import com.aditya.demo.DemoApplication;
 import com.aditya.demo.controller.helper.HttpHelper;
 import com.aditya.demo.dto.UserDto;
 import com.aditya.demo.dto.UsersDto;
-import com.aditya.demo.request.CreateRequest;
+import com.aditya.demo.request.UserRequest;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +17,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -48,8 +46,8 @@ public class UserControllerIntegrationTest {
     public void test_1_should_save_user() {
         //Given
         String url = String.format(USER_URL, port);
-        CreateRequest createRequest = givenCreateRequest();
-        HttpEntity<CreateRequest> request = HttpHelper.getHttpEntity(createRequest);
+        UserRequest createRequest = givenUserRequest();
+        HttpEntity<UserRequest> request = HttpHelper.getHttpEntity(createRequest);
         //When
         ResponseEntity<UserDto> response = testRestTemplate.exchange(url, HttpMethod.POST, request, UserDto.class);
         //Then
@@ -95,9 +93,9 @@ public class UserControllerIntegrationTest {
     @Test
     public void test_4_should_update_user() {
         //Given
-        String url = String.format(USER_URL, port);
-        UserDto userDto = givenUserDto();
-        HttpEntity<UserDto> request = HttpHelper.getHttpEntity(userDto);
+        String url = String.format(USER_ID_URL, port, ID);
+        UserRequest userRequest = givenUserRequest();
+        HttpEntity<UserRequest> request = HttpHelper.getHttpEntity(userRequest);
         //When
         ResponseEntity<UserDto> response = testRestTemplate.exchange(url, HttpMethod.PUT, request, UserDto.class);
         //Then
@@ -123,18 +121,10 @@ public class UserControllerIntegrationTest {
         assertEquals(NAME, response.getBody().getName());
     }
 
-    private CreateRequest givenCreateRequest() {
-        CreateRequest createRequest = new CreateRequest();
-        createRequest.setAlias(ALIAS);
-        createRequest.setName(NAME);
-        return createRequest;
-    }
-
-    private UserDto givenUserDto() {
-        UserDto userDto = new UserDto();
-        userDto.setId(ID);
-        userDto.setAlias(ALIAS);
-        userDto.setName(NAME);
-        return userDto;
+    private UserRequest givenUserRequest() {
+        UserRequest userRequest = new UserRequest();
+        userRequest.setAlias(ALIAS);
+        userRequest.setName(NAME);
+        return userRequest;
     }
 }

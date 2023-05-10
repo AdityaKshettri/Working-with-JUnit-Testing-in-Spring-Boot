@@ -34,7 +34,6 @@ public class UserRepositoryTest {
     public void should_save_user() {
         //Given
         User user = givenUser();
-        user.setId(0);
         //When
         user = userRepository.save(user);
         //Then
