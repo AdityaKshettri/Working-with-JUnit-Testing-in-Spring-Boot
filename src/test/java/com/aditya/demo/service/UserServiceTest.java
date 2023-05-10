@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     private static final int ID = 1;
+    private static final String ALIAS = "ALIAS";
     private static final String NAME = "NAME";
 
     @InjectMocks
@@ -127,6 +128,7 @@ public class UserServiceTest {
     private User givenUser() {
         User user = new User();
         user.setId(ID);
+        user.setAlias(ALIAS);
         user.setName(NAME);
         return user;
     }

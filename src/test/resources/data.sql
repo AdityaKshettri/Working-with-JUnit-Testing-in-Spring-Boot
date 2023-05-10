@@ -1,2 +1,2 @@
-insert into User(id, name) values(10, 'NAME');
-insert into User(id, name) values(20, 'DELETE_NAME');
+insert into User(id, alias, name) values(10, 'TEST_ALIAS', 'NAME');
+insert into User(id, alias, name) values(20, 'DELETE_ALIAS', 'DELETE_NAME');
