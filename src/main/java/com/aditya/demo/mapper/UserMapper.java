@@ -14,6 +14,7 @@ public class UserMapper {
     public UserDto map(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        userDto.setAlias(user.getAlias());
         userDto.setName(user.getName());
         return userDto;
     }
@@ -21,12 +22,14 @@ public class UserMapper {
     public User map(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
+        user.setAlias(userDto.getAlias());
         user.setName(userDto.getName());
         return user;
     }
 
     public User map(CreateRequest createRequest) {
         User user = new User();
+        user.setAlias(createRequest.getAlias());
         user.setName(createRequest.getName());
         return user;
     }

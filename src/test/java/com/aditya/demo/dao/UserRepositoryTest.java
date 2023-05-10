@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @DataJpaTest
 public class UserRepositoryTest {
 
+    private static final String ALIAS = "ALIAS";
     private static final String NAME = "NAME";
     private static final String UPDATED_NAME = "UPDATED_NAME";
 
@@ -94,12 +95,14 @@ public class UserRepositoryTest {
     private User givenUser() {
         User user = new User();
         user.setId(0);
+        user.setAlias(ALIAS);
         user.setName(NAME);
         return user;
     }
 
     private User givenUpdatedUser() {
         User user = new User();
+        user.setAlias(ALIAS);
         user.setName(UPDATED_NAME);
         return user;
     }

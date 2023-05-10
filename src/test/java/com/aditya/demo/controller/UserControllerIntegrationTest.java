@@ -15,6 +15,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -31,7 +33,10 @@ public class UserControllerIntegrationTest {
 
     private static final int ID = 10;
     private static final int DELETE_ID = 20;
-
+    private static final String ALIAS = "ALIAS";
+    private static final String NEW_ALIAS = "NEW_ALIAS";
+    private static final String TEST_ALIAS = "TEST_ALIAS";
+    private static final String DELETE_ALIAS = "DELETE_ALIAS";
     private static final String NAME = "NAME";
     private static final String NEW_NAME = "NEW_NAME";
     private static final String DELETE_NAME = "DELETE_NAME";
@@ -53,6 +58,7 @@ public class UserControllerIntegrationTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
         assertEquals(response.getBody().getId(), ID);
+        assertEquals(response.getBody().getAlias(), TEST_ALIAS);
         assertEquals(response.getBody().getName(), NAME);
     }
 
@@ -67,8 +73,9 @@ public class UserControllerIntegrationTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
         List<UserDto> userDtos = response.getBody().getUserDtos();
-        assertEquals(3, userDtos.size());
+        assertEquals(4, userDtos.size());
         assertEquals(ID, userDtos.get(0).getId());
+        assertEquals(ALIAS, userDtos.get(0).getAlias());
         assertEquals(NAME, userDtos.get(0).getName());
     }
 
@@ -83,6 +90,7 @@ public class UserControllerIntegrationTest {
         //Then
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
+        assertEquals(response.getBody().getAlias(), NEW_ALIAS);
         assertEquals(response.getBody().getName(), NEW_NAME);
     }
 
@@ -98,6 +106,7 @@ public class UserControllerIntegrationTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
         assertEquals(ID, response.getBody().getId());
+        assertEquals(ALIAS, response.getBody().getAlias());
         assertEquals(NAME, response.getBody().getName());
     }
 
@@ -112,11 +121,13 @@ public class UserControllerIntegrationTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
         assertEquals(DELETE_ID, response.getBody().getId());
+        assertEquals(DELETE_ALIAS, response.getBody().getAlias());
         assertEquals(DELETE_NAME, response.getBody().getName());
     }
 
     private CreateRequest givenCreateRequest() {
         CreateRequest createRequest = new CreateRequest();
+        createRequest.setAlias(NEW_ALIAS);
         createRequest.setName(NEW_NAME);
         return createRequest;
     }
@@ -124,6 +135,7 @@ public class UserControllerIntegrationTest {
     private UserDto givenUserDto() {
         UserDto userDto = new UserDto();
         userDto.setId(ID);
+        userDto.setAlias(ALIAS);
         userDto.setName(NAME);
         return userDto;
     }

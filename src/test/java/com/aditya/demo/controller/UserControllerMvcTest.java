@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerMvcTest {
 
     private static final int ID = 1;
+    private static final String ALIAS = "ALIAS";
     private static final String NAME = "NAME";
 
     private static final String USER_URL = "/users";
@@ -137,6 +138,7 @@ public class UserControllerMvcTest {
 
     private CreateRequest givenCreateRequest() {
         CreateRequest createRequest = new CreateRequest();
+        createRequest.setAlias(ALIAS);
         createRequest.setName(NAME);
         return createRequest;
     }
@@ -144,6 +146,7 @@ public class UserControllerMvcTest {
     private UserDto givenUserDto() {
         UserDto userDto = new UserDto();
         userDto.setId(ID);
+        userDto.setAlias(ALIAS);
         userDto.setName(NAME);
         return userDto;
     }
@@ -151,6 +154,7 @@ public class UserControllerMvcTest {
     private User givenUser() {
         User user = new User();
         user.setId(ID);
+        user.setAlias(ALIAS);
         user.setName(NAME);
         return user;
     }

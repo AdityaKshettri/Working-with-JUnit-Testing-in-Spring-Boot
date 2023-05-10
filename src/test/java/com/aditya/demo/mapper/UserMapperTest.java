@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class UserMapperTest {
 
     private static final int ID = 1;
+    private static final String ALIAS = "ALIAS";
     private static final String NAME = "NAME";
 
     @InjectMocks
@@ -30,6 +31,7 @@ public class UserMapperTest {
         UserDto userDto = userMapper.map(user);
         //Then
         assertEquals(user.getId(), userDto.getId());
+        assertEquals(user.getAlias(), userDto.getAlias());
         assertEquals(user.getName(), userDto.getName());
     }
 
@@ -41,6 +43,7 @@ public class UserMapperTest {
         User user = userMapper.map(userDto);
         //Then
         assertEquals(user.getId(), userDto.getId());
+        assertEquals(user.getAlias(), userDto.getAlias());
         assertEquals(user.getName(), userDto.getName());
     }
 
@@ -51,6 +54,7 @@ public class UserMapperTest {
         //When
         User user = userMapper.map(createRequest);
         //Then
+        assertEquals(user.getAlias(), createRequest.getAlias());
         assertEquals(user.getName(), createRequest.getName());
     }
 
@@ -64,12 +68,14 @@ public class UserMapperTest {
         //Then
         assertEquals(users.size(), userDtos.size());
         assertEquals(userDtos.get(0).getId(), users.get(0).getId());
+        assertEquals(userDtos.get(0).getAlias(), users.get(0).getAlias());
         assertEquals(userDtos.get(0).getName(), users.get(0).getName());
     }
 
     private User givenUser() {
         User user = new User();
         user.setId(ID);
+        user.setAlias(ALIAS);
         user.setName(NAME);
         return user;
     }
@@ -77,12 +83,14 @@ public class UserMapperTest {
     private UserDto givenUserDto() {
         UserDto userDto = new UserDto();
         userDto.setId(ID);
+        userDto.setAlias(ALIAS);
         userDto.setName(NAME);
         return userDto;
     }
 
     private CreateRequest givenCreateRequest() {
         CreateRequest createRequest = new CreateRequest();
+        createRequest.setAlias(ALIAS);
         createRequest.setName(NAME);
         return createRequest;
     }

@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateRequest {
 
+    private String alias;
     private String name;
 }
