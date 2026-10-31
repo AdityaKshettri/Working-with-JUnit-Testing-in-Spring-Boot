@@ -85,8 +85,7 @@ public class UserServiceTest {
     public void should_update_user() {
         //Given
         User user = givenUser();
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(userRepository.save(user)).thenReturn(user);
+        setupCrudRepositoryFindByIdAndSaveStubs(user, Optional.of(user));
         //When
         //Then
         assertEquals(user, userService.update(user));
@@ -96,8 +95,7 @@ public class UserServiceTest {
     public void should_return_null_update_user() {
         //Given
         User user = givenUser();
-        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
-        when(userRepository.save(user)).thenReturn(user);
+        setupCrudRepositoryFindByIdAndSaveStubs(user, Optional.empty());
         //When
         //Then
         assertNull(userService.update(user));
@@ -107,9 +105,8 @@ public class UserServiceTest {
     public void should_delete_user_by_id() {
         //Given
         User user = givenUser();
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         //When
-        doNothing().when(userRepository).deleteById(ID);
+        setupCrudRepositoryFindByIdAndDeleteByIdStubs(user, Optional.of(user));
         //Then
         assertEquals(user, userService.deleteById(ID));
     }
@@ -118,9 +115,8 @@ public class UserServiceTest {
     public void should_return_null_delete_user_by_id() {
         //Given
         User user = givenUser();
-        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
         //When
-        doNothing().when(userRepository).deleteById(ID);
+        setupCrudRepositoryFindByIdAndDeleteByIdStubs(user, Optional.empty());
         //Then
         assertNull(userService.deleteById(ID));
     }
@@ -131,5 +127,15 @@ public class UserServiceTest {
         user.setAlias(ALIAS);
         user.setName(NAME);
         return user;
+    }
+
+    private void setupCrudRepositoryFindByIdAndSaveStubs(User user, Optional findByIdReturnValue) {
+        when(userRepository.findById(user.getId())).thenReturn(findByIdReturnValue);
+        when(userRepository.save(user)).thenReturn(user);
+    }
+
+    private void setupCrudRepositoryFindByIdAndDeleteByIdStubs(User user, Optional findByIdReturnValue) {
+        when(userRepository.findById(user.getId())).thenReturn(findByIdReturnValue);
+        doNothing().when(userRepository).deleteById(ID);
     }
 }
